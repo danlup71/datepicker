@@ -8,14 +8,10 @@ Too often I had to struggle with the native DateTimePicker from Blazor as it lac
  Well I wrote a bunch of code in Javascript... and the DOM...  and JQuery but now.. after I discovered Blazor I thought it was over and still it's here... surrounding anything that's a little bit more than basic... so my thought was:
  > But the logic it's pretty simple.. don't wanna use any JOPS or worse... let's give it a try
 
-| Name | Role | Description |
-| --- | --- | --- |
-| current | parameter | you set the initial date here |
-| SelectionChanged | event | raised when the user select a value |
 
 
 ### Try it in your project [^1]
-This control is not optimized just left it simple and very basicx in order to allow everybody to use it and take advantage.. 
+This control is not optimized just left it simple and very basic in order to allow everybody to use it and take advantage.. 
 
 
 <details>
