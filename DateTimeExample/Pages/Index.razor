@@ -17,7 +17,21 @@ Every suggestion is welcome.
 
 Happy coding
 
+<table>
+    <tr>
+        <td><DanlupDateTime SelectionChanged="UserSelectedDate"></DanlupDateTime></td>
+        <td><b>@message</b></td>
+    </tr>
+</table>
 
 
 
-<DanlupDateTime></DanlupDateTime>
+
+@code{
+    private string @message;
+
+    private void UserSelectedDate(DateTime date)
+    {
+        message = $"User selected {date.ToShortDateString()}";
+    }
+}
