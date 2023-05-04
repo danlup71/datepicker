@@ -62,7 +62,7 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-DateTimeExample/* linguist-generated
+DateTimeExample/* linguist-detectable=false
 
 *.html linguist-detectable=false
 *.htm inguist-detectable=false
