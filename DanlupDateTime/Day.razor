@@ -1,0 +1,20 @@
+﻿<div class="@daySelected" @onmousedown="MouseClick">@(day > 0 ? $"{day}" : "")</div>
+
+@code {
+    [Parameter]
+    public int day { get; set; }
+
+    [CascadingParameter(Name = "currentDay")]
+    public DateTime currentDay { get; set; }
+
+    [Parameter]
+    public EventCallback<int> Selected { get; set; }
+
+    public void MouseClick()
+    {
+        Selected.InvokeAsync(day);
+    }
+
+    private string daySelected => (day == currentDay.Day? "daySelected" : "");
+    
+}
