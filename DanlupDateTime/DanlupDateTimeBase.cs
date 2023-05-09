@@ -10,13 +10,16 @@ public class DanlupDateTimeBase: ComponentBase
     [Parameter]
     public EventCallback<DateTime> SelectionChanged { get; set; }
 
-    protected int offsetMonth = 0;
+    // M   T   W   T   F   S   S
+    //             1   2   3   4   ..  ..  ..
+    // column of 1st day of the month compared to Monday based week
+    protected int ColumnDay1 = 0;  
 
-    protected bool fiftyRow = false;
-    protected bool sixtyRow = false;
+    protected bool fifthRow = false;
 
-    protected string fired = "";
+    protected bool sixthRow = false;
 
+    protected string message = "";
 
     protected override void OnParametersSet()
     {
@@ -26,28 +29,30 @@ public class DanlupDateTimeBase: ComponentBase
 
     private void SetData()
     {
-        DateTime firstDayOfCurrentMonth = current.AddDays(-current.Day + 1);
+        DateTime firstDayOfCurrentMonth = current.AddDays(1 - current.Day);
         int dayOfWeek = (int)firstDayOfCurrentMonth.DayOfWeek;
-        offsetMonth = dayOfWeek == 0 ? 6 : dayOfWeek - 1;
+        ColumnDay1 = dayOfWeek == 0 ? 6 : dayOfWeek - 1;
 
+        // accordingly to the number of days and the column of day one
+        // calculate the visibility of the 5th and 6th row 
         int nDaysInMonth = DateTime.DaysInMonth(current.Year, current.Month);
-        fiftyRow = offsetMonth > 0 || nDaysInMonth > 28;
-        sixtyRow = offsetMonth + nDaysInMonth > 35;
+        fifthRow = ColumnDay1 > 0 || nDaysInMonth > 28;
+        sixthRow = ColumnDay1 + nDaysInMonth > 35;
     }
 
-    protected int GetDayNumber(int day)
+    protected int GetDayNumberPerColumn(int column)
     {
-        if (!isValid(day, offsetMonth, current))
+        if (!columnInRange(column, ColumnDay1, current))
             return 0;
 
-        return day - offsetMonth;
+        return column - ColumnDay1;
     }
 
-    private bool isValid(int day, int offSetMonth, DateTime current)
+    private bool columnInRange(int column, int columnDay1, DateTime current)
     {
-        if (day - offsetMonth < 1) return false;
+        if (column - columnDay1 < 1) return false;
 
-        if (day - offsetMonth > DateTime.DaysInMonth(current.Year, current.Month)) return false;
+        if (column - columnDay1 > DateTime.DaysInMonth(current.Year, current.Month)) return false;
 
         return true;
     }
@@ -64,9 +69,9 @@ public class DanlupDateTimeBase: ComponentBase
         SetData();
     }
 
-    public void DayFired(int day)
+    public void DateSelected(int day)
     {
-        fired = $" selected = {new DateTime(current.Year,current.Month,day).ToShortDateString()}";
+        message = $" selected = {new DateTime(current.Year,current.Month,day).ToShortDateString()}";
         current = new DateTime(current.Year, current.Month, day);
 
         NotifyParent();

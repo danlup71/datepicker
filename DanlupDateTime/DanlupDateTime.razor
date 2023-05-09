@@ -18,44 +18,44 @@
             <th><div>s</div></th>
         </tr>
         <tr>
-            @for (int day = 1; day <= 7; day++)
+            @for (int iterator = 1; iterator <= 7; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 8; day <= 14; day++)
+            @for (int iterator = 8; iterator <= 14; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 15; day <= 21; day++)
+            @for (int iterator = 15; iterator <= 21; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 22; day <= 28; day++)
+            @for (int iterator = 22; iterator <= 28; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
-        @if (fiftyRow)
+        @if (fifthRow)
         {
             <tr>
-                @for (int day = 29; day <= 35; day++)
+                @for (int iterator = 29; iterator <= 35; iterator++)
                 {
-                    <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                            <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
                 }
             </tr>
         }
-        @if (sixtyRow)
+        @if (sixthRow)
         {
         <tr>
-            @for (int day = 36; day <= 42; day++)
+            @for (int iterator = 36; iterator <= 42; iterator++)
             {
-                    <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                            <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         }

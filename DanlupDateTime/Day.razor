@@ -1,4 +1,4 @@
-﻿<div class="@daySelected" @onmousedown="MouseClick">@(day > 0 ? $"{day}" : "")</div>
+﻿<div class="@daySelected" @onmousedown="mouseClick">@(day > 0 ? $"{day}" : "")</div>
 
 @code {
     [Parameter]
@@ -8,11 +8,11 @@
     public DateTime currentDay { get; set; }
 
     [Parameter]
-    public EventCallback<int> Selected { get; set; }
+    public EventCallback<int> MouseClick { get; set; }
 
-    public void MouseClick()
+    public void mouseClick()
     {
-        Selected.InvokeAsync(day);
+        MouseClick.InvokeAsync(day);
     }
 
     private string daySelected => (day == currentDay.Day? "daySelected" : "");
