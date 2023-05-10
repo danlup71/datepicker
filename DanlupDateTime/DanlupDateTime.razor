@@ -41,7 +41,7 @@
                         <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
-        @if (fifthRow)
+        @if (needFifthRow)
         {
             <tr>
                 @for (int iterator = 29; iterator <= 35; iterator++)
@@ -50,7 +50,7 @@
                 }
             </tr>
         }
-        @if (sixthRow)
+        @if (needSixthRow)
         {
         <tr>
             @for (int iterator = 36; iterator <= 42; iterator++)

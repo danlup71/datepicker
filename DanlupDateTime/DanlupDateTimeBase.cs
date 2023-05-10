@@ -13,11 +13,11 @@ public class DanlupDateTimeBase: ComponentBase
     // M   T   W   T   F   S   S
     //             1   2   3   4   ..  ..  ..
     // column of 1st day of the month compared to Monday based week
-    protected int ColumnDay1 = 0;  
+    protected int columnDay1 = 0;  
 
-    protected bool fifthRow = false;
+    protected bool needFifthRow = false;
 
-    protected bool sixthRow = false;
+    protected bool needSixthRow = false;
 
     protected string message = "";
 
@@ -29,23 +29,19 @@ public class DanlupDateTimeBase: ComponentBase
 
     private void SetData()
     {
-        DateTime firstDayOfCurrentMonth = current.AddDays(1 - current.Day);
-        int dayOfWeek = (int)firstDayOfCurrentMonth.DayOfWeek;
-        ColumnDay1 = dayOfWeek == 0 ? 6 : dayOfWeek - 1;
+        columnDay1 = current.calendarColumnDay1() - 1;
 
-        // accordingly to the number of days and the column of day one
-        // calculate the visibility of the 5th and 6th row 
-        int nDaysInMonth = DateTime.DaysInMonth(current.Year, current.Month);
-        fifthRow = ColumnDay1 > 0 || nDaysInMonth > 28;
-        sixthRow = ColumnDay1 + nDaysInMonth > 35;
+        needFifthRow = current.calendarFifthRowNeeded();
+
+        needSixthRow = current.calendarSixthRowNeeded();
     }
 
     protected int GetDayNumberPerColumn(int column)
     {
-        if (!columnInRange(column, ColumnDay1, current))
+        if (!columnInRange(column, columnDay1, current))
             return 0;
 
-        return column - ColumnDay1;
+        return column - columnDay1;
     }
 
     private bool columnInRange(int column, int columnDay1, DateTime current)
