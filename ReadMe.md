@@ -13,7 +13,7 @@ This control is not optimized just left it simple and very basic in order to all
 Your feedback would be appreciated
 
 ```HTML+Razor
-<DanlupDateTime current="@(new DateTime(2023,04,10))" SelectionChanged="YourMethodHandler"></DanlupDateTime>
+<DatePicker current="@(new DateTime(2023,04,10))" SelectionChanged="YourMethodHandler"></DatePicker>
 <br/>
 <b>@message</b>
   
