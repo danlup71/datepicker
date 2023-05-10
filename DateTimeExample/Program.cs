@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
+using Danlup;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 
 var app = builder.Build();
 

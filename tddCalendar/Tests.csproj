@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DanlupDateTime\DanlupDateTime.csproj" />
+    <ProjectReference Include="..\DanlupDateTime\Danlup.csproj" />
   </ItemGroup>
 
 </Project>

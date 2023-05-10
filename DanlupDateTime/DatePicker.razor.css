@@ -1,37 +1,33 @@
-﻿.danlupDate {
+.danlupDate {
     border: 1px solid gray;
     font-size: .8em;
     text-align: center;
-
     width: fit-content;
     padding: .4em;
     margin: 1.1em;
-
     box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19) !important;
     position: absolute;
     background-color: white;
-
 }
 
-.row1
-{
+.row1 {
     padding-bottom: .3em;
 }
 
-.row1 .prev {
-    float: left;
-    font-weight: 600;
-}
-
-.row1 .prev:hover,
-.row1 .next:hover {
-        cursor: pointer;
+    .row1 .prev {
+        float: left;
+        font-weight: 600;
     }
 
-.row1 .next {
-    float: right;
-    font-weight: 600;
-}
+        .row1 .prev:hover,
+        .row1 .next:hover {
+            cursor: pointer;
+        }
+
+    .row1 .next {
+        float: right;
+        font-weight: 600;
+    }
 
 .danlupDate .row2 th div {
     text-align: center;
@@ -43,12 +39,12 @@
     width: 20px;
 }
 */
-    .danlupDate .row2 td ::deep div:hover {
-        cursor: pointer;
-        background-color: navy;
-        color: white;
-        font-weight: 600;
-    }
+.danlupDate .row2 td ::deep div:hover {
+    cursor: pointer;
+    background-color: navy;
+    color: white;
+    font-weight: 600;
+}
 
 .row1 {
     text-align: center

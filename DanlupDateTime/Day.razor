@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Web
+@namespace Danlup
 <div class="@daySelected" @onmousedown="mouseClick">@(day > 0 ? $"{day}" : "")</div>
 
 @code {
@@ -16,6 +17,6 @@
         MouseClick.InvokeAsync(day);
     }
 
-    private string daySelected => (day == currentDay.Day? "daySelected" : "");
-    
+    private string daySelected => (day == currentDay.Day ? "daySelected" : "");
+
 }

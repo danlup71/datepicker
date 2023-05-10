@@ -1,4 +1,4 @@
-﻿namespace DanlupDateTime;
+﻿namespace Danlup;
 
 public static class DateTimeExtensions
 {

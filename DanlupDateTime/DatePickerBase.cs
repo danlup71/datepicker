@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace DanlupDateTime;
+namespace Danlup;
 
-public class DanlupDateTimeBase: ComponentBase
+public class DatePickerBase : ComponentBase
 {
     [Parameter]
     public DateTime current { get; set; } = DateTime.Now;
@@ -10,7 +10,7 @@ public class DanlupDateTimeBase: ComponentBase
     [Parameter]
     public EventCallback<DateTime> SelectionChanged { get; set; }
 
-    protected int columnDay1 => current.calendarColumnDay1() - 1;  
+    protected int columnDay1 => current.calendarColumnDay1() - 1;
 
     protected bool needFifthRow => current.calendarFifthRowNeeded();
 
@@ -47,7 +47,7 @@ public class DanlupDateTimeBase: ComponentBase
 
     public void DateSelected(int day)
     {
-        message = $" selected = {new DateTime(current.Year,current.Month,day).ToShortDateString()}";
+        message = $" selected = {new DateTime(current.Year, current.Month, day).ToShortDateString()}";
         current = new DateTime(current.Year, current.Month, day);
 
         NotifyParent();
