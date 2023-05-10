@@ -1,4 +1,5 @@
-﻿<div class="@daySelected" @onmousedown="mouseClick">@(day > 0 ? $"{day}" : "")</div>
+﻿@using Microsoft.AspNetCore.Components.Web
+<div class="@daySelected" @onmousedown="mouseClick">@(day > 0 ? $"{day}" : "")</div>
 
 @code {
     [Parameter]
