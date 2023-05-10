@@ -8,11 +8,9 @@ Too often I had to struggle with the native DateTimePicker from Blazor as it lac
  Well I wrote a bunch of code in Javascript... and the DOM...  and JQuery but now.. after I discovered Blazor I thought it was over and still it's here... surrounding anything that's a little bit more than basic... so my thought was:
  > But the logic it's pretty simple.. don't wanna use any JOPS or worse... let's give it a try
 
-
-
 ### Try it in your project [^1]
 This control is not optimized just left it simple and very basic in order to allow everybody to use it and take advantage.. 
-
+Your feedback would be appreciated
 
 <details>
 
@@ -20,6 +18,7 @@ This control is not optimized just left it simple and very basic in order to all
   
 ``` 
 
+@using Microsoft.AspNetCore.Components.Web
 @inherits DanlupDateTimeBase
 
 <CascadingValue Name="currentDay" Value="@current">
@@ -40,44 +39,44 @@ This control is not optimized just left it simple and very basic in order to all
             <th><div>s</div></th>
         </tr>
         <tr>
-            @for (int day = 1; day <= 7; day++)
+            @for (int iterator = 1; iterator <= 7; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 8; day <= 14; day++)
+            @for (int iterator = 8; iterator <= 14; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 15; day <= 21; day++)
+            @for (int iterator = 15; iterator <= 21; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         <tr>
-            @for (int day = 22; day <= 28; day++)
+            @for (int iterator = 22; iterator <= 28; iterator++)
             {
-                <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                        <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
-        @if (fiftyRow)
+        @if (needFifthRow)
         {
             <tr>
-                @for (int day = 29; day <= 35; day++)
+                @for (int iterator = 29; iterator <= 35; iterator++)
                 {
-                    <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                            <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
                 }
             </tr>
         }
-        @if (sixtyRow)
+        @if (needSixthRow)
         {
         <tr>
-            @for (int day = 36; day <= 42; day++)
+            @for (int iterator = 36; iterator <= 42; iterator++)
             {
-                    <td><Day Selected="DayFired" day="@GetDayNumber(day)"></Day></td>
+                            <td><Day MouseClick="DateSelected" day="@GetDayNumberPerColumn(iterator)"></Day></td>
             }
         </tr>
         }
@@ -86,6 +85,7 @@ This control is not optimized just left it simple and very basic in order to all
 
 </div>
 </CascadingValue>
+
 
 
 ```
@@ -100,6 +100,10 @@ This control is not optimized just left it simple and very basic in order to all
 <summary>DanlupDateTimeBase.cs</summary>
   
 ``` 
+using Microsoft.AspNetCore.Components;
+
+namespace DanlupDateTime;
+
 public class DanlupDateTimeBase: ComponentBase
 {
     [Parameter]
@@ -108,13 +112,16 @@ public class DanlupDateTimeBase: ComponentBase
     [Parameter]
     public EventCallback<DateTime> SelectionChanged { get; set; }
 
-    protected int offsetMonth = 0;
+    // M   T   W   T   F   S   S
+    //             1   2   3   4   ..  ..  ..
+    // column of 1st day of the month compared to Monday based week
+    protected int columnDay1 = 0;  
 
-    protected bool fiftyRow = false;
-    protected bool sixtyRow = false;
+    protected bool needFifthRow = false;
 
-    protected string fired = "";
+    protected bool needSixthRow = false;
 
+    protected string message = "";
 
     protected override void OnParametersSet()
     {
@@ -124,28 +131,26 @@ public class DanlupDateTimeBase: ComponentBase
 
     private void SetData()
     {
-        DateTime firstDayOfCurrentMonth = current.AddDays(-current.Day + 1);
-        int dayOfWeek = (int)firstDayOfCurrentMonth.DayOfWeek;
-        offsetMonth = dayOfWeek == 0 ? 6 : dayOfWeek - 1;
+        columnDay1 = current.calendarColumnDay1() - 1;
 
-        int nDaysInMonth = DateTime.DaysInMonth(current.Year, current.Month);
-        fiftyRow = offsetMonth > 0 || nDaysInMonth > 28;
-        sixtyRow = offsetMonth + nDaysInMonth > 35;
+        needFifthRow = current.calendarFifthRowNeeded();
+
+        needSixthRow = current.calendarSixthRowNeeded();
     }
 
-    protected int GetDayNumber(int day)
+    protected int GetDayNumberPerColumn(int column)
     {
-        if (!isValid(day, offsetMonth, current))
+        if (!columnInRange(column, columnDay1, current))
             return 0;
 
-        return day - offsetMonth;
+        return column - columnDay1;
     }
 
-    private bool isValid(int day, int offSetMonth, DateTime current)
+    private bool columnInRange(int column, int columnDay1, DateTime current)
     {
-        if (day - offsetMonth < 1) return false;
+        if (column - columnDay1 < 1) return false;
 
-        if (day - offsetMonth > DateTime.DaysInMonth(current.Year, current.Month)) return false;
+        if (column - columnDay1 > DateTime.DaysInMonth(current.Year, current.Month)) return false;
 
         return true;
     }
@@ -162,9 +167,9 @@ public class DanlupDateTimeBase: ComponentBase
         SetData();
     }
 
-    public void DayFired(int day)
+    public void DateSelected(int day)
     {
-        fired = $" selected = {new DateTime(current.Year,current.Month,day).ToShortDateString()}";
+        message = $" selected = {new DateTime(current.Year,current.Month,day).ToShortDateString()}";
         current = new DateTime(current.Year, current.Month, day);
 
         NotifyParent();
@@ -187,7 +192,9 @@ public class DanlupDateTimeBase: ComponentBase
   
 ``` 
 
-<div class="@daySelected" @onmousedown="MouseClick">@(day > 0 ? $"{day}" : "")</div>
+@using Microsoft.AspNetCore.Components.Web
+<div class="@daySelected" @onmousedown="mouseClick">@(day > 0 ? $"{day}" : "")</div>
+
 @code {
     [Parameter]
     public int day { get; set; }
@@ -196,11 +203,11 @@ public class DanlupDateTimeBase: ComponentBase
     public DateTime currentDay { get; set; }
 
     [Parameter]
-    public EventCallback<int> Selected { get; set; }
+    public EventCallback<int> MouseClick { get; set; }
 
-    public void MouseClick()
+    public void mouseClick()
     {
-        Selected.InvokeAsync(day);
+        MouseClick.InvokeAsync(day);
     }
 
     private string daySelected => (day == currentDay.Day? "daySelected" : "");
@@ -212,11 +219,43 @@ public class DanlupDateTimeBase: ComponentBase
 </details>
 
 
+<details>
+
+<summary>DateTimeExtensions.cs</summary>
+  
+``` 
+
+namespace DanlupDateTime;
+
+public static class DateTimeExtensions
+{
+    public static int calendarColumnDay1(this DateTime _date)
+    { 
+        // 1 get the day/column of the 1s of current month Monday based
+        DateTime dayOneCurrentMonth = new DateTime(_date.Year, _date.Month, 1);
+        return (int)dayOneCurrentMonth.DayOfWeek == 0 ? 7 : (int)dayOneCurrentMonth.DayOfWeek;
+    }
+    
+    public static bool calendarFifthRowNeeded(this DateTime _date)
+    {
+        return _date.calendarColumnDay1() + DateTime.DaysInMonth(_date.Year, _date.Month) - 1 > 28;
+    }
+
+    public static bool calendarSixthRowNeeded(this DateTime _date)
+    {
+        return _date.calendarColumnDay1() + DateTime.DaysInMonth(_date.Year, _date.Month) - 1 > 35;
+    }
+}
+
+```
+
+</details>
+
   
 Every suggestion is welcome.
 Happy coding
 
 
 
-[^1]: this project is not subject to any copyright. You can use and improve as much as you want..
+[^1]: Included tests just for a better understdanding
 
