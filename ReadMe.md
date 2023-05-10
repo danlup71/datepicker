@@ -12,10 +12,21 @@ Too often I had to struggle with the native DateTimePicker from Blazor as it lac
 This control is not optimized just left it simple and very basic in order to allow everybody to use it and take advantage.. 
 Your feedback would be appreciated
 
-
-
-
+```c#
+<DanlupDateTime SelectionChanged="YourMethodHandler"></DanlupDateTime>
+<br/>
+<b>@message</b>
   
+@code{
+    private string @message;
+
+    private void YourMethodHandler(DateTime date)
+    {
+        message = $"User selected {date.ToShortDateString()}";
+    }
+}
+```
+
 Every suggestion is welcome.
 Happy coding
 
