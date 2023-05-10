@@ -12,7 +12,7 @@ Too often I had to struggle with the native DateTimePicker from Blazor as it lac
 This control is not optimized just left it simple and very basic in order to allow everybody to use it and take advantage.. 
 Your feedback would be appreciated
 
-```c#
+```HTML+Razor
 <DanlupDateTime current="@(new DateTime(2023,04,10))" SelectionChanged="YourMethodHandler"></DanlupDateTime>
 <br/>
 <b>@message</b>
