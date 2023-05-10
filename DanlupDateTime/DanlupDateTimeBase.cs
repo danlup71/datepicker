@@ -10,31 +10,13 @@ public class DanlupDateTimeBase: ComponentBase
     [Parameter]
     public EventCallback<DateTime> SelectionChanged { get; set; }
 
-    // M   T   W   T   F   S   S
-    //             1   2   3   4   ..  ..  ..
-    // column of 1st day of the month compared to Monday based week
-    protected int columnDay1 = 0;  
+    protected int columnDay1 => current.calendarColumnDay1() - 1;  
 
-    protected bool needFifthRow = false;
+    protected bool needFifthRow => current.calendarFifthRowNeeded();
 
-    protected bool needSixthRow = false;
+    protected bool needSixthRow => current.calendarSixthRowNeeded();
 
     protected string message = "";
-
-    protected override void OnParametersSet()
-    {
-        SetData();
-        base.OnParametersSet();
-    }
-
-    private void SetData()
-    {
-        columnDay1 = current.calendarColumnDay1() - 1;
-
-        needFifthRow = current.calendarFifthRowNeeded();
-
-        needSixthRow = current.calendarSixthRowNeeded();
-    }
 
     protected int GetDayNumberPerColumn(int column)
     {
@@ -56,13 +38,11 @@ public class DanlupDateTimeBase: ComponentBase
     protected void PrevMonth()
     {
         current = current.AddMonths(-1);
-        SetData();
     }
 
     protected void NextMonth()
     {
         current = current.AddMonths(1);
-        SetData();
     }
 
     public void DateSelected(int day)

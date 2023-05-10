@@ -3,8 +3,10 @@
 public static class DateTimeExtensions
 {
     public static int calendarColumnDay1(this DateTime _date)
-    { 
-        // 1 get the day/column of the 1s of current month Monday based
+    {
+        // M   T   W   T   F   S   S
+        //             1   2   3   4   ..  ..  ..
+        // column of 1st day of the month compared to Monday based week
         DateTime dayOneCurrentMonth = new DateTime(_date.Year, _date.Month, 1);
         return (int)dayOneCurrentMonth.DayOfWeek == 0 ? 7 : (int)dayOneCurrentMonth.DayOfWeek;
     }
